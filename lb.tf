@@ -43,7 +43,7 @@ resource "aws_lb" "peering-proxy" {
   security_groups            = [aws_security_group.nlb.id]
   enable_deletion_protection = true
   subnet_mapping {
-    subnet_id = [aws_subnet.haproxy_subnet.id]
+    subnet_id = aws_subnet.haproxy_subnet.id
     # private_ipv4_address  = var.haproxy_private_ip\
     private_ipv4_address = "10.3.0.13"
   }
