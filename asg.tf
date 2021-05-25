@@ -2,7 +2,7 @@
 resource "aws_launch_configuration" "peering-proxy" {
   image_id        = data.aws_ami.dq-peering-haproxy.id
   instance_type   = "t3a.micro"
-  security_groups = [ aws_security_group.instance.id ]
+  security_groups = [aws_security_group.instance.id]
   key_name        = var.key_name
   user_data       = <<-EOF
         #!/bin/bash
@@ -33,25 +33,26 @@ resource "aws_security_group" "instance" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [ var.haproxy_subnet_cidr_block ]
+    cidr_blocks = [var.haproxy_subnet_cidr_block]
   }
 
   egress {
-    from_port = 0
-    to_port   = 0
-    protocol  = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-
+  }
+}
 
 ## Creating AutoScaling Group
 resource "aws_autoscaling_group" "peering-proxy" {
-  launch_configuration = aws_launch_configuration.peering-proxy.id
-  min_size             = 1
-  max_size             = 2
-  load_balancers       = [ aws_elb.peering-proxy.name ]
-  health_check_type    = "ELB"
+  launch_configuration      = aws_launch_configuration.peering-proxy.id
+  min_size                  = 1
+  max_size                  = 2
+  load_balancers            = [aws_elb.peering-proxy.name]
+  health_check_type         = "ELB"
   health_check_grace_period = 300
-  vpc_zone_identifier = aws_subnet.haproxy_subnet.id
+  vpc_zone_identifier       = aws_subnet.haproxy_subnet.id
 
   tag {
     key                 = "Name"
@@ -59,6 +60,7 @@ resource "aws_autoscaling_group" "peering-proxy" {
     propagate_at_launch = true
   }
 }
+
 ## Security Group for ELB
 resource "aws_security_group" "elb" {
   name = "sg-elb-${local.naming_suffix}"
@@ -81,11 +83,14 @@ resource "aws_security_group" "elb" {
     cidr_blocks = var.SGCIDRs
   }
 }
+
 ### Creating ELB
 resource "aws_elb" "peering-proxy" {
-  name               = "elb-${local.naming_suffix}"
-  security_groups    = [aws_security_group.elb.id]
-  subnets = [ aws_subnet.haproxy_subnet.id ]
+  name                      = "elb-${local.naming_suffix}"
+  security_groups           = [aws_security_group.elb.id]
+  subnets                   = [aws_subnet.haproxy_subnet.id]
+  availability_zones        = ["eu-west-2a"]
+  cross_zone_load_balancing = false
 
   health_check {
     healthy_threshold   = 2
@@ -163,6 +168,10 @@ resource "aws_elb" "peering-proxy" {
     lb_protocol       = "tcp"
     instance_port     = 8087
     instance_protocol = "tcp"
+  }
+
+  tags = {
+    Name = "elb-${local.naming_suffix}"
   }
 
 }
