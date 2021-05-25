@@ -97,7 +97,7 @@ resource "aws_elb" "peering-proxy" {
     unhealthy_threshold = 2
     timeout             = 3
     interval            = 30
-    target              = "TCP:5432/"
+    target              = "TCP:5432"
   }
 
   listener {
