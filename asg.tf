@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "peering-proxy" {
   load_balancers            = [aws_elb.peering-proxy.name]
   health_check_type         = "ELB"
   health_check_grace_period = 300
-  vpc_zone_identifier       = aws_subnet.haproxy_subnet.id
+  vpc_zone_identifier       = [aws_subnet.haproxy_subnet.id]
 
   tag {
     key                 = "Name"
@@ -86,10 +86,10 @@ resource "aws_security_group" "elb" {
 
 ### Creating ELB
 resource "aws_elb" "peering-proxy" {
-  name                      = "elb-${local.naming_suffix}"
-  security_groups           = [aws_security_group.elb.id]
-  subnets                   = [aws_subnet.haproxy_subnet.id]
-  availability_zones        = ["eu-west-2a"]
+  name            = "elb-${local.naming_suffix}"
+  security_groups = [aws_security_group.elb.id]
+  subnets         = [aws_subnet.haproxy_subnet.id]
+  # availability_zones        = ["eu-west-2a"]
   cross_zone_load_balancing = false
 
   health_check {
