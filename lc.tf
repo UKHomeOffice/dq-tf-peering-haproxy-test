@@ -25,3 +25,29 @@ resource "aws_launch_configuration" "peering-proxy" {
     create_before_destroy = true
   }
 }
+
+resource "aws_security_group" "instance" {
+  vpc_id = var.peeringvpc_id
+
+  tags = {
+    Name = "sg-${local.naming_suffix}"
+  }
+
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = var.SGCIDRs
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
+  }
+}
