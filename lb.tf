@@ -75,7 +75,7 @@ resource "aws_lb_target_group" "peering-proxy" {
   deregistration_delay = 90
   health_check {
     interval            = 60
-    port                = each.value
+    port                = each.key
     protocol            = "TCP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
