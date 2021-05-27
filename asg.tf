@@ -8,7 +8,7 @@ resource "aws_autoscaling_group" "peering-proxy" {
   load_balancers            = [aws_lb.peering-proxy.name]
   health_check_type         = "ELB"
   health_check_grace_period = 300
-  vpc_zone_identifier       = [aws_subnet.haproxy_subnet.id]
+  vpc_zone_identifier       = [aws_subnet.haproxy_subnet.id, aws_subnet.haproxy_subnet_2b.id]
 
   tag {
     key                 = "Name"

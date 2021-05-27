@@ -22,7 +22,7 @@ resource "aws_security_group" "nlb" {
     from_port   = 0
     to_port     = 0
     protocol    = "tcp"
-    cidr_blocks = [var.haproxy_subnet_cidr_block]
+    cidr_blocks = [var.haproxy_subnet_cidr_block, var.haproxy_subnet_cidr_block_2b]
   }
   ingress {
     from_port   = 8080
@@ -47,6 +47,12 @@ resource "aws_lb" "peering-proxy" {
     subnet_id = aws_subnet.haproxy_subnet.id
     # private_ipv4_address  = var.haproxy_private_ip\
     # private_ipv4_address = "10.3.0.13"
+  }
+
+  subnet_mapping {
+    subnet_id = aws_subnet.haproxy_subnet_2b.id
+    # private_ipv4_address  = var.haproxy_private_ip\
+    # private_ipv4_address = "10.3.1.13"
   }
 
   tags = {
