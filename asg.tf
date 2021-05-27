@@ -9,11 +9,17 @@ resource "aws_autoscaling_group" "peering-proxy" {
   health_check_type         = "ELB"
   health_check_grace_period = 300
   vpc_zone_identifier       = [aws_subnet.haproxy_subnet.id, aws_subnet.haproxy_subnet_2b.id]
-  target_group_arns         = [aws_lb_target_group.peering-proxy.arn]
 
   tag {
     key                 = "Name"
     value               = "ec2-${local.naming_suffix}"
     propagate_at_launch = true
   }
+}
+
+
+resource "aws_autoscaling_attachment" "peering-proxy" {
+  for_each               = var.forwarding_config
+  autoscaling_group_name = aws_autoscaling_group.peering-proxy.id
+  alb_target_group_arn   = aws_lb_target_group.peering-proxy[each.key].arn
 }

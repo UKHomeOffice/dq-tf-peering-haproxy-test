@@ -90,7 +90,7 @@ resource "aws_lb_target_group" "peering-proxy" {
     unhealthy_threshold = 3
   }
   tags = {
-    Environment = "peering-proxy-tg-${each.key}"
+    name = "peering-proxy-tg-${each.key}"
   }
 }
 
