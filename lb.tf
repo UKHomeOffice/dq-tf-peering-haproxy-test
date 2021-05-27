@@ -43,6 +43,7 @@ resource "aws_security_group" "nlb" {
 resource "aws_lb" "peering-proxy" {
   name                       = "nlb-${local.naming_suffix}"
   security_groups            = [aws_security_group.nlb.id]
+  load_balancer_type         = "network"
   enable_deletion_protection = true
 
   subnet_mapping {
