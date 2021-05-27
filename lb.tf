@@ -17,7 +17,9 @@ variable "forwarding_config" {
 
 ## Security Group for ELB
 resource "aws_security_group" "nlb" {
-  name = "nlb-sg-${local.naming_suffix}"
+  name   = "nlb-sg-${local.naming_suffix}"
+  vpc_id = var.peeringvpc_id
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -80,7 +82,7 @@ resource "aws_lb_target_group" "peering-proxy" {
   target_type          = "instance"
   deregistration_delay = 90
   health_check {
-    interval            = 60
+    interval            = 30
     port                = each.key
     protocol            = "TCP"
     healthy_threshold   = 3
