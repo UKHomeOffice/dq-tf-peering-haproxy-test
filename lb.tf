@@ -16,33 +16,32 @@ variable "forwarding_config" {
 }
 
 ## Security Group for ELB
-resource "aws_security_group" "nlb" {
-  name   = "nlb-sg-${local.naming_suffix}"
-  vpc_id = var.peeringvpc_id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "tcp"
-    cidr_blocks = [var.haproxy_subnet_cidr_block, var.haproxy_subnet_cidr_block_2b]
-  }
-  ingress {
-    from_port   = 8080
-    to_port     = 8090
-    protocol    = "tcp"
-    cidr_blocks = var.SGCIDRs
-  }
-  ingress {
-    from_port   = 5431
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = var.SGCIDRs
-  }
-}
+# resource "aws_security_group" "nlb" {
+#   name   = "nlb-sg-${local.naming_suffix}"
+#   vpc_id = var.peeringvpc_id
+#
+#   egress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = "tcp"
+#     cidr_blocks = [var.haproxy_subnet_cidr_block, var.haproxy_subnet_cidr_block_2b]
+#   }
+#   ingress {
+#     from_port   = 8080
+#     to_port     = 8090
+#     protocol    = "tcp"
+#     cidr_blocks = var.SGCIDRs
+#   }
+#   ingress {
+#     from_port   = 5431
+#     to_port     = 5432
+#     protocol    = "tcp"
+#     cidr_blocks = var.SGCIDRs
+#   }
+# }
 
 resource "aws_lb" "peering-proxy" {
   name                       = "nlb-${local.naming_suffix}"
-  security_groups            = [aws_security_group.nlb.id]
   load_balancer_type         = "network"
   enable_deletion_protection = true
 
