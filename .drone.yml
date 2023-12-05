@@ -35,6 +35,7 @@ x-anchors:
     - sleep 20
 
   check-format: &check-format
+    - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform --version
     - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
 
   run-testrunner: &run-testrunner
