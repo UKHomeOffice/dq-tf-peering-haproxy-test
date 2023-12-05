@@ -1,6 +1,6 @@
 ---
 global-variables:
-  acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
+#  acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
   testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
 #  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
   vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
@@ -35,8 +35,10 @@ x-anchors:
     - sleep 20
 
   check-format: &check-format
-    - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform --version
-    - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
+    - terraform --version
+    - terraform fmt --diff --check
+#    - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform --version
+#    - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
 
   run-testrunner: &run-testrunner
     # Get AWS secrets for Target Account
@@ -62,7 +64,7 @@ steps:
 
 - name: check-format
   pull: always
-  image: *acp-docker-image
+  image: *testrunner-image
   commands: *check-format
   when:
     event:
@@ -78,6 +80,6 @@ steps:
     event:
       - push
 
-services:
-  - name: docker
-    image: *acp-docker-image
+#services:
+#  - name: docker
+#    image: *acp-docker-image
