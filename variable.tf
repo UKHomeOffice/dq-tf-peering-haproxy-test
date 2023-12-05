@@ -1,3 +1,11 @@
+variable "account_id" {
+  type = map(string)
+  default = {
+    "notprod" = "483846886818"
+    "prod"    = "337779336338"
+  }
+}
+
 variable "peeringvpc_id" {
 }
 
@@ -8,9 +16,6 @@ variable "haproxy_private_ip2" {
 }
 
 variable "haproxy_subnet_cidr_block" {
-}
-
-variable "haproxy_subnet_cidr_block_2b" {
 }
 
 variable "log_archive_s3_bucket" {
@@ -49,10 +54,6 @@ variable "service" {
 
 variable "az" {
   default = "eu-west-2a"
-}
-
-variable "az_2b" {
-  default = "eu-west-2b"
 }
 
 variable "namespace" {

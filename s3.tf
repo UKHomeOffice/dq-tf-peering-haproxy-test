@@ -128,6 +128,11 @@ EOF
 
 }
 
+resource "aws_iam_role_policy_attachment" "dq_tf_infra_write_to_cw" {
+  role       = aws_iam_role.haproxy_ec2_server_role.id
+  policy_arn = "arn:aws:iam::${var.account_id[var.namespace]}:policy/dq-tf-infra-write-to-cw"
+}
+
 resource "aws_iam_policy_attachment" "attachs3_bucket_policy" {
   name       = "attachs3_bucket_policy"
   roles      = [aws_iam_role.haproxy_ec2_server_role.name]
