@@ -18,7 +18,7 @@ class TestE2E(unittest.TestCase):
               source = "./mymodule"
 
               providers = {
-                aws = "aws"
+                aws = aws
               }
                 haproxy_subnet_cidr_block = "1.2.3.0/24"
                 peeringvpc_id          = "1234"
