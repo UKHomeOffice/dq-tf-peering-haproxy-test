@@ -1,8 +1,8 @@
 ---
 global-variables:
 #  acp-docker-image: &acp-docker-image 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind:latest
-#  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
-  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
+  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
+#  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
   vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
 
 kind: pipeline
