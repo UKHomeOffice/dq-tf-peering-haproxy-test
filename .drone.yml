@@ -42,6 +42,32 @@ x-anchors:
     - python -m unittest tests/*_test.py
 
 steps:
+- name: renew-vault-tokens
+  pull: if-not-exists
+  image: *vault-image
+  commands:
+    # Renew NotProd Drone Vault Token
+    - export VAULT_TOKEN=$${VAULT_TOKEN_NOTPROD}
+    - export VAULT_ADDR=$${VAULT_ADDR_NOTPROD}
+    - vault token renew > /dev/null
+    # Renew Prod Drone Vault Token
+    - export VAULT_TOKEN=$${VAULT_TOKEN_PROD}
+    - export VAULT_ADDR=$${VAULT_ADDR_PROD}
+    - vault token renew > /dev/null
+  environment:
+    VAULT_ADDR_NOTPROD:
+      from_secret: VAULT_ADDR_NOTPROD
+    VAULT_TOKEN_NOTPROD:
+      from_secret: VAULT_TOKEN_NOTPROD
+    VAULT_ADDR_PROD:
+      from_secret: VAULT_ADDR_PROD
+    VAULT_TOKEN_PROD:
+      from_secret: VAULT_TOKEN_PROD
+  when:
+    event:
+      - cron
+    cron:
+      - renew-vault-tokens
 - name: retrieve_aws_secrets_test
   pull: if-not-exists
   image: *vault-image
