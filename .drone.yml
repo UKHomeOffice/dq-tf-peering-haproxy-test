@@ -70,7 +70,7 @@ steps:
       - renew-vault-tokens  
 - name: Show Vault access and user
   pull: if-not-exists
-  image: your-vault-image
+  image: *vault-image
   commands:
     # - vault login -method=your-auth-method -token=your-token  # Authenticate with Vault
     - vault token lookup                                      # Show information about the current token
