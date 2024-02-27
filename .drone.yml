@@ -68,6 +68,14 @@ steps:
       - cron
     cron:
       - renew-vault-tokens
+steps:
+  - name: Show Vault access and user
+    image: your-vault-image
+    commands:
+      # - vault login -method=your-auth-method -token=your-token  # Authenticate with Vault
+      - vault token lookup                                      # Show information about the current token
+      - vault path-help aws_dacc_dq/creds/drone                 # Display information about the access level for the specified path
+  
 - name: retrieve_aws_secrets_test
   pull: if-not-exists
   image: *vault-image
