@@ -12,6 +12,5 @@ data "aws_ami" "dq-peering-haproxy" {
   owners = [
     "self",
   ]
-  
 }
 
