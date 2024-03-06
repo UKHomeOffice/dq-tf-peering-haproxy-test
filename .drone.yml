@@ -1,6 +1,6 @@
 ---
 global-variables:
-  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:32
+  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.6
 #  testrunner-image: &testrunner-image quay.io/ukhomeofficedigital/tf-testrunner:TF1.5
   vault-image: &vault-image docker.digital.homeoffice.gov.uk/dq/dq-vault-awscli:1.43
 
