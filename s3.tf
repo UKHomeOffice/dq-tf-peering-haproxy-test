@@ -45,6 +45,13 @@ resource "aws_s3_bucket_logging" "haproxy_config_bucket_logging" {
   target_prefix = "${var.service}-log/"
 }
 
+resource "aws_s3_bucket_acl" "haproxy_config_bucket_acl" {
+  # depends_on = [aws_s3_bucket_ownership_controls.example]
+
+  bucket = var.s3_bucket_name
+  acl    = var.s3_bucket_acl
+}
+
 resource "aws_s3_bucket_policy" "haproxy_config_bucket" {
   bucket = var.s3_bucket_name
 
