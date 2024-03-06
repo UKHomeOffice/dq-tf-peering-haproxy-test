@@ -21,10 +21,10 @@ resource "aws_s3_bucket" "haproxy_config_bucket" {
   #  enabled = true
   #  }
 
-  logging {
-    target_bucket = var.log_archive_s3_bucket
-    target_prefix = "${var.service}-log/"
-  }
+  # logging {
+  #  target_bucket = var.log_archive_s3_bucket
+  #  target_prefix = "${var.service}-log/"
+  # }
 
   tags = {
     Name = "s3-${local.naming_suffix}"
@@ -36,6 +36,13 @@ resource "aws_s3_bucket_versioning" "haproxy_config_bucket_versioning" {
   versioning_configuration {
     status = "Enabled"
   }
+}
+
+resource "aws_s3_bucket_logging" "haproxy_config_bucket_logging" {
+  bucket = var.s3_bucket_name
+
+  target_bucket = var.log_archive_s3_bucket
+  target_prefix = "${var.service}-log/"
 }
 
 resource "aws_s3_bucket_policy" "haproxy_config_bucket" {
