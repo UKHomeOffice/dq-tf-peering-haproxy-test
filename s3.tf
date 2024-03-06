@@ -6,7 +6,7 @@ resource "aws_kms_key" "haproxy_config_bucket_key" {
 
 resource "aws_s3_bucket" "haproxy_config_bucket" {
   bucket = var.s3_bucket_name
-  acl    = var.s3_bucket_acl
+  # acl = var.s3_bucket_acl
 
   server_side_encryption_configuration {
     rule {
