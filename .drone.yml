@@ -36,6 +36,8 @@ x-anchors:
     - terraform fmt --diff --check
 
   run-testrunner: &run-testrunner
+    # refresh terraform state to ensure actual state of config is accurate
+    terraform refresh 
     # Get AWS secrets for Target Account
     - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
     - source ./$${AWS_SECRETS_FILE}
