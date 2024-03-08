@@ -40,12 +40,6 @@ x-anchors:
     - export AWS_SECRETS_FILE="set_aws_secrets_$${AWS_ENV}.sh"
     - source ./$${AWS_SECRETS_FILE}
     - python -m unittest tests/*_test.py
-    # run terraform init to import the modules needed for the following commands   
-    - terraform init 
-    # refresh terraform state to ensure actual state of config is accurate
-    - terraform refresh 
-    # run a terraform plan after the actual state has been retrieved 
-    - terraform plan 
 
 steps:
 - name: renew-vault-tokens
