@@ -11,7 +11,7 @@ class TestE2E(unittest.TestCase):
             provider "aws" {
               region = "eu-west-2"
               skip_credentials_validation = true
-              skip_get_ec2_platforms = true
+              # skip_get_ec2_platforms = true
             }
 
             module "haproxy-instance" {
